@@ -24,6 +24,7 @@ class AMQPStreamConnection extends AbstractConnection
      * @param float $channel_rpc_timeout
      * @param string|null $ssl_protocol
      * @param AMQPConnectionConfig|null $config
+     * @throws \Exception
      */
     public function __construct(
         $host,
@@ -79,7 +80,8 @@ class AMQPStreamConnection extends AbstractConnection
     }
 
     /**
-     * @deprecated Use ConnectionFactory
+     * @deprecated Use AmqpConnectionFactory
+     * @throws \Exception
      */
     protected static function try_create_connection($host, $port, $user, $password, $vhost, $options)
     {
@@ -101,6 +103,8 @@ class AMQPStreamConnection extends AbstractConnection
                            $options['keepalive'] : false;
         $heartbeat = isset($options['heartbeat']) ?
                            $options['heartbeat'] : 60;
+        $channel_rpc_timeout = isset($options['channel_rpc_timeout']) ?
+                                    $options['channel_rpc_timeout'] : 0.0;
         return new static(
             $host,
             $port,
@@ -115,7 +119,8 @@ class AMQPStreamConnection extends AbstractConnection
             $read_write_timeout,
             $context,
             $keepalive,
-            $heartbeat
+            $heartbeat,
+            $channel_rpc_timeout
         );
     }
 }

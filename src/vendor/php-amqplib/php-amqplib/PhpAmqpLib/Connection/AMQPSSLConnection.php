@@ -14,6 +14,7 @@ class AMQPSSLConnection extends AMQPStreamConnection
      * @param array $options
      * @param string $ssl_protocol
      * @param AMQPConnectionConfig|null $config
+     * @throws \Exception
      */
     public function __construct(
         $host,
@@ -26,7 +27,12 @@ class AMQPSSLConnection extends AMQPStreamConnection
         $ssl_protocol = 'ssl',
         ?AMQPConnectionConfig $config = null
     ) {
-        $ssl_context = empty($ssl_options) ? null : $this->createSslContext($ssl_options);
+        if (empty($ssl_options)) {
+            trigger_error('Using non-TLS instances of AMQPSSLConnection is deprecated and will be removed in version 4 of php-amqplib', E_USER_DEPRECATED);
+            $ssl_context = null;
+        } else {
+            $ssl_context = $this->createSslContext($ssl_options);
+        }
         parent::__construct(
             $host,
             $port,
@@ -49,7 +55,8 @@ class AMQPSSLConnection extends AMQPStreamConnection
     }
 
     /**
-     * @deprecated Use ConnectionFactory
+     * @deprecated Use AmqpConnectionFactory
+     * @throws \Exception
      */
     public static function try_create_connection($host, $port, $user, $password, $vhost, $options)
     {

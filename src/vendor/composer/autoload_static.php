@@ -8,12 +8,10 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
 {
     public static $files = array (
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
-        '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        'cea474b4340aa9fa53661e887a21a316' => __DIR__ . '/..' . '/react/promise-stream/src/functions_include.php',
-        'ebf8799635f67b5d7248946fe2154f4a' => __DIR__ . '/..' . '/ringcentral/psr7/src/functions_include.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'ebf8799635f67b5d7248946fe2154f4a' => __DIR__ . '/..' . '/ringcentral/psr7/src/functions_include.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '49d7e2e91a66e18467cc8d8b8b02459b' => __DIR__ . '/..' . '/mollie/polyfill-libsodium/bootstrap.php',
@@ -41,8 +39,6 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
             'RingCentral\\Psr7\\' => 17,
             'React\\Stream\\' => 13,
             'React\\Socket\\' => 13,
-            'React\\Promise\\Timer\\' => 20,
-            'React\\Promise\\Stream\\' => 21,
             'React\\Promise\\' => 14,
             'React\\Partial\\' => 14,
             'React\\Http\\' => 11,
@@ -58,6 +54,7 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Clock\\' => 10,
             'PhpAmqpLib\\' => 11,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
@@ -72,6 +69,10 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
         'F' => 
         array (
             'Fig\\Http\\Message\\' => 17,
+        ),
+        'E' => 
+        array (
+            'Evenement\\' => 10,
         ),
         'D' => 
         array (
@@ -125,14 +126,6 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
         array (
             0 => __DIR__ . '/..' . '/react/socket/src',
         ),
-        'React\\Promise\\Timer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/promise-timer/src',
-        ),
-        'React\\Promise\\Stream\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/promise-stream/src',
-        ),
         'React\\Promise\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/promise/src',
@@ -179,8 +172,12 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+        ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
         'PhpAmqpLib\\' => 
         array (
@@ -201,6 +198,10 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
         'Fig\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/fig/http-message-util/src',
+        ),
+        'Evenement\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/evenement/evenement/src',
         ),
         'Discord\\Http\\' => 
         array (
@@ -227,13 +228,6 @@ class ComposerStaticInit1bdd8feee20ef581d994ddc60d85c77c
             'TrafficCophp' => 
             array (
                 0 => __DIR__ . '/..' . '/trafficcophp/bytebuffer/src',
-            ),
-        ),
-        'E' => 
-        array (
-            'Evenement' => 
-            array (
-                0 => __DIR__ . '/..' . '/evenement/evenement/src',
             ),
         ),
     );

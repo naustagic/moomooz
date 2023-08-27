@@ -2,6 +2,7 @@
 
 namespace PhpAmqpLib\Wire\IO;
 
+use PhpAmqpLib\Connection\AMQPConnectionConfig;
 use PhpAmqpLib\Exception\AMQPConnectionClosedException;
 use PhpAmqpLib\Exception\AMQPHeartbeatMissedException;
 use PhpAmqpLib\Exception\AMQPIOWaitException;
@@ -10,6 +11,9 @@ use PhpAmqpLib\Wire\AMQPWriter;
 abstract class AbstractIO
 {
     const BUFFER_SIZE = 8192;
+
+    /** @var null|AMQPConnectionConfig */
+    protected $config;
 
     /** @var string */
     protected $host;
@@ -121,6 +125,16 @@ abstract class AbstractIO
     abstract public function connect();
 
     /**
+     * Set connection params connection tune(negotiation).
+     * @param int $heartbeat
+     */
+    public function afterTune(int $heartbeat): void
+    {
+        $this->heartbeat = $heartbeat;
+        $this->initial_heartbeat = $heartbeat;
+    }
+
+    /**
      * Heartbeat logic: check connection health here
      * @return void
      * @throws \PhpAmqpLib\Exception\AMQPRuntimeException
@@ -173,6 +187,7 @@ abstract class AbstractIO
      */
     public function disableHeartbeat()
     {
+        $this->initial_heartbeat = $this->heartbeat;
         $this->heartbeat = 0;
 
         return $this;

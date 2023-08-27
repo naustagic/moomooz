@@ -13,13 +13,7 @@ class AMQPConnectionFactory
     {
         if ($config->getIoType() === AMQPConnectionConfig::IO_TYPE_STREAM) {
             if ($config->isSecure()) {
-                if ($config->isLazy()) {
-                    $class = AMQPLazySSLConnection::class;
-                } else {
-                    $class = AMQPSSLConnection::class;
-                }
-
-                $connection = new $class(
+                $connection = new AMQPSSLConnection(
                     $config->getHost(),
                     $config->getPort(),
                     $config->getUser(),
@@ -29,6 +23,7 @@ class AMQPConnectionFactory
                     [
                         'insist' => $config->isInsist(),
                         'login_method' => $config->getLoginMethod(),
+                        'login_response' => $config->getLoginResponse(),
                         'locale' => $config->getLocale(),
                         'connection_timeout' => $config->getConnectionTimeout(),
                         'read_write_timeout' => self::getReadWriteTimeout($config),
@@ -39,12 +34,7 @@ class AMQPConnectionFactory
                     $config
                 );
             } else {
-                if ($config->isLazy()) {
-                    $class = AMQPLazyConnection::class;
-                } else {
-                    $class = AMQPStreamConnection::class;
-                }
-                $connection = new $class(
+                $connection = new AMQPStreamConnection(
                     $config->getHost(),
                     $config->getPort(),
                     $config->getUser(),
@@ -52,7 +42,7 @@ class AMQPConnectionFactory
                     $config->getVhost(),
                     $config->isInsist(),
                     $config->getLoginMethod(),
-                    null,
+                    $config->getLoginResponse(),
                     $config->getLocale(),
                     $config->getConnectionTimeout(),
                     self::getReadWriteTimeout($config),
@@ -69,12 +59,7 @@ class AMQPConnectionFactory
                 throw new LogicException('The socket connection implementation does not support secure connections.');
             }
 
-            if ($config->isLazy()) {
-                $class = AMQPLazySocketConnection::class;
-            } else {
-                $class = AMQPSocketConnection::class;
-            }
-            $connection = new $class(
+            $connection = new AMQPSocketConnection(
                 $config->getHost(),
                 $config->getPort(),
                 $config->getUser(),
@@ -82,13 +67,14 @@ class AMQPConnectionFactory
                 $config->getVhost(),
                 $config->isInsist(),
                 $config->getLoginMethod(),
-                null,
+                $config->getLoginResponse(),
                 $config->getLocale(),
                 $config->getReadTimeout(),
                 $config->isKeepalive(),
                 $config->getWriteTimeout(),
                 $config->getHeartbeat(),
-                $config->getChannelRPCTimeout()
+                $config->getChannelRPCTimeout(),
+                $config
             );
         }
 
@@ -107,13 +93,17 @@ class AMQPConnectionFactory
     private static function getSslOptions(AMQPConnectionConfig $config): array
     {
         return array_filter([
-           'cafile' => $config->getSslCaCert(),
-           'local_cert' => $config->getSslCert(),
-           'local_pk' => $config->getSslKey(),
-           'verify_peer' => $config->getSslVerify(),
-           'verify_peer_name' => $config->getSslVerifyName(),
-           'passphrase' => $config->getSslPassPhrase(),
-           'ciphers' => $config->getSslCiphers(),
-        ], static function ($value) { return null !== $value; });
+            'cafile' => $config->getSslCaCert(),
+            'capath' => $config->getSslCaPath(),
+            'local_cert' => $config->getSslCert(),
+            'local_pk' => $config->getSslKey(),
+            'verify_peer' => $config->getSslVerify(),
+            'verify_peer_name' => $config->getSslVerifyName(),
+            'passphrase' => $config->getSslPassPhrase(),
+            'ciphers' => $config->getSslCiphers(),
+            'security_level' => $config->getSslSecurityLevel()
+        ], static function ($value) {
+            return null !== $value;
+        });
     }
 }
