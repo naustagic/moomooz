@@ -9,16 +9,23 @@ class ProcessManager
 	function __construct($command = "")
 	{
 		if ($command === "") return;
-		switch ($command)
-		{
-			case "status": return $this->status();
-			case "start": return $this->start();
-			case "restart": return $this->restart();
-			case "stop": return $this->stop();
-			case "kill": return $this->kill();
-			case "wrapper": return $this->wrapper();
-			case "main": return new DiscordClient;
-			default: die("ERROR: Invalid Command\n");
+		switch ($command) {
+			case "status":
+				return $this->status();
+			case "start":
+				return $this->start();
+			case "restart":
+				return $this->restart();
+			case "stop":
+				return $this->stop();
+			case "kill":
+				return $this->kill();
+			case "wrapper":
+				return $this->wrapper();
+			case "main":
+				return new DiscordClient;
+			default:
+				die("ERROR: Invalid Command\n");
 		}
 	}
 
@@ -30,8 +37,7 @@ class ProcessManager
 		exec("ps aux | grep \"moomoo wrapper\"", $ps);
 		exec("ps aux | grep \"moomoo main\"", $ps);
 		foreach ($ps as $line) if (!strpos($line, "grep")) $ps2[] = $line;
-		foreach ($ps2 as $line)
-		{
+		foreach ($ps2 as $line) {
 			$line = $this->replace("  ", " ", $line);
 			$line = explode(" ", $line);
 			$ps3[] = $line[1];
@@ -39,25 +45,25 @@ class ProcessManager
 		return $ps3;
 	}
 
-	private function replace($search,$replace,$mixed)
+	private function replace($search, $replace, $mixed)
 	{
-		while(strpos($mixed,$search) !== false) $mixed = str_replace($search,$replace,$mixed);
+		while (strpos($mixed, $search) !== false) $mixed = str_replace($search, $replace, $mixed);
 		return $mixed;
 	}
 
 	private function status()
 	{
 		$pids = $this->getPids();
-		if (sizeof($pids) === 2) echo("moomoo is running... (pids " . implode(" ", $pids) . ")\n");
-		elseif (sizeof($pids)) echo("WARNING; moomoo is HALF running... (pids " . implode(" ", $pids) . ")\n");
-		else echo("moomoo is stopped.\n");
+		if (sizeof($pids) === 2) echo ("moomoo is running... (pids " . implode(" ", $pids) . ")\n");
+		elseif (sizeof($pids)) echo ("WARNING; moomoo is HALF running... (pids " . implode(" ", $pids) . ")\n");
+		else echo ("moomoo is stopped.\n");
 	}
 
 	private function start()
 	{
 		$pids = $this->getPids();
 		if (sizeof($pids)) die("ERROR: moomoo is already running.  Not starting.\n");
-		exec("nohup moomoo wrapper </dev/null >> ".__DIR__."/logs.d/wrapper.log 2>&1 &");
+		exec("nohup moomoo wrapper </dev/null >> " . __DIR__ . "/logs.d/wrapper.log 2>&1 &");
 		usleep(10000);
 		$this->status();
 	}
@@ -85,8 +91,7 @@ class ProcessManager
 
 	private function wrapper()
 	{
-		while (true)
-		{
+		while (true) {
 			passthru("moomoo main");
 			sleep(1);
 		}
